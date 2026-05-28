@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, MessageCircle } from "lucide-react";
+import WaterParticles from "./water-particles";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -13,8 +14,10 @@ export default function Hero() {
 
     const loadGSAP = async () => {
       try {
-        const gsap = (await import("gsap")).default;
-        const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
+        const gsapModule = await import("gsap");
+        const gsap = gsapModule.default;
+        const ScrollTriggerModule = await import("gsap/ScrollTrigger");
+        const ScrollTrigger = ScrollTriggerModule.default;
         gsap.registerPlugin(ScrollTrigger);
 
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
@@ -43,15 +46,15 @@ export default function Hero() {
             "-=0.4"
           );
 
-        // Parallax on product image
-        gsap.to(".hero-image", {
-          y: "8%",
+        // Subtle parallax on product image
+        gsap.to(".hero-image-wrap", {
+          y: "5%",
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top top",
             end: "bottom top",
-            scrub: 0.5,
+            scrub: 0.8,
           },
         });
       } catch (e) {
@@ -66,21 +69,22 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="inicio"
-      className="section-hero min-h-[100dvh] flex items-center relative overflow-hidden pt-28 pb-16 md:pt-0 md:pb-0"
+      className="relative min-h-[100dvh] flex items-center bg-white overflow-hidden pt-24 pb-16 md:pt-0 md:pb-0"
     >
-      {/* Radial glow overlay */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-[#20A0E0]/5 blur-[120px]" />
-      </div>
+      {/* Water particles */}
+      <WaterParticles />
 
-      <div className="w-full max-w-7xl mx-auto px-[--container-px] flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+      {/* Subtle cyan glow top-right */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-[#E0F7FA]/40 blur-[120px] pointer-events-none" />
+
+      <div className="w-full max-w-7xl mx-auto container-px flex flex-col lg:flex-row items-center gap-12 lg:gap-16 relative z-10">
         {/* Left: Text */}
-        <div className="flex-1 flex flex-col items-start text-left z-10">
+        <div className="flex-1 flex flex-col items-start text-left">
           <span className="eyebrow hero-eyebrow">AGUA PURA</span>
-          <h1 className="heading-display text-[clamp(2.25rem,6vw,5rem)] text-[#F1F5F9] mb-6 hero-headline max-w-[15ch] text-balance">
+          <h1 className="heading-display text-[clamp(2.5rem,5vw,4.5rem)] text-[#111827] mb-6 hero-headline max-w-[15ch] text-balance">
             Agua pura, salud protegida, hogar impecable.
           </h1>
-          <p className="body-text text-[clamp(1rem,1.25vw,1.2rem)] text-[#94A3B8] mb-10 hero-subtitle max-w-[55ch]">
+          <p className="body-text text-[clamp(1rem,1.25vw,1.2rem)] text-[#64748B] mb-10 hero-subtitle max-w-[55ch]">
             Sistemas profesionales de tratamiento y purificación de agua que eliminan
             contaminantes, suavizan el agua dura y protegen cada rincón de su hogar.
           </p>
@@ -93,7 +97,7 @@ export default function Hero() {
               href="https://wa.me/17863424247"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-whatsapp !bg-transparent !text-[#F1F5F9] !border !border-white/20 !shadow-none hover:!border-[#25D366] hover:!text-[#25D366]"
+              className="btn-outline"
             >
               <MessageCircle size={20} strokeWidth={1.5} />
               WhatsApp • 786-342-4247
@@ -102,11 +106,11 @@ export default function Hero() {
         </div>
 
         {/* Right: Product Image */}
-        <div className="flex-1 relative z-10 hero-image">
+        <div className="flex-1 relative z-10 hero-image-wrap">
           <div className="relative w-full aspect-[4/3] max-w-[540px] mx-auto">
-            {/* Glow behind image */}
-            <div className="absolute inset-0 rounded-2xl bg-[#20A0E0]/10 blur-[60px] scale-90" />
-            <div className="product-card h-full">
+            {/* Soft glow behind image */}
+            <div className="absolute inset-0 rounded-2xl bg-[#E0F7FA]/40 blur-[60px] scale-90" />
+            <div className="relative w-full h-full rounded-2xl overflow-hidden border border-[#E2E8F0] shadow-[0_2px_20px_rgba(0,0,0,0.04)]">
               <Image
                 src="/assets/img/imgproduct1.jpg"
                 alt="Sistema de Ósmosis Inversa PINA Water System"
@@ -117,34 +121,46 @@ export default function Hero() {
               />
             </div>
             {/* Floating badge */}
-            <div className="absolute -bottom-4 -left-4 glass-card-outer">
-              <div className="glass-card-inner !p-4 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20 flex items-center justify-center">
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#22C55E"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M20 6L9 17l-5-5" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-[#F1F5F9] font-[var(--font-body)]">
-                    Certificación NSF
-                  </p>
-                  <p className="text-xs text-[#94A3B8] font-[var(--font-body)]">
-                    Componentes certificados
-                  </p>
-                </div>
+            <div className="absolute -bottom-4 -left-4 bg-white rounded-xl border border-[#E2E8F0] shadow-[0_2px_20px_rgba(0,0,0,0.04)] p-4 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-[#F0FDF4] border border-[#BBF7D0] flex items-center justify-center">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#16A34A"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20 6L9 17l-5-5" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-[#111827] font-[var(--font-body)]">
+                  Certificación NSF
+                </p>
+                <p className="text-xs text-[#64748B] font-[var(--font-body)]">
+                  Componentes certificados
+                </p>
               </div>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Wave divider at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 wave-divider">
+        <svg
+          viewBox="0 0 1280 64"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0,32 C320,64 640,0 1280,32 L1280,64 L0,64 Z"
+            fill="#F0F8FF"
+          />
+        </svg>
       </div>
     </section>
   );

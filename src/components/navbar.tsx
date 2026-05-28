@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
   { label: "Inicio", href: "#inicio" },
@@ -14,18 +14,11 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [visible, setVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
 
   const handleScroll = useCallback(() => {
-    const currentY = window.scrollY;
-    if (currentY > lastScrollY && currentY > 100) {
-      setVisible(false);
-    } else {
-      setVisible(true);
-    }
-    setLastScrollY(currentY);
-  }, [lastScrollY]);
+    setScrolled(window.scrollY > 20);
+  }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -41,16 +34,16 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-7xl nav-glass px-4 md:px-6 py-3 transition-all duration-500 ${
-        visible
-          ? "translate-y-0 opacity-100"
-          : "-translate-y-[calc(100%+2rem)] opacity-0"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${
+        scrolled
+          ? "bg-white/95 backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
+          : "bg-white"
       }`}
     >
-      <div className="flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link href="#inicio" className="flex items-center gap-3 shrink-0">
-          <div className="bg-white/95 rounded-lg p-1.5">
+          <div className="bg-white rounded-lg p-1.5">
             <Image
               src="/assets/img/logo.png"
               alt="PINA Water System"
@@ -68,7 +61,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-[#F1F5F9]/80 hover:text-[#20A0E0] transition-colors duration-300 font-[var(--font-body)]"
+              className="text-sm font-medium text-[#64748B] hover:text-[#1E6EF0] transition-colors duration-300 font-[var(--font-body)]"
             >
               {link.label}
             </Link>
@@ -77,10 +70,7 @@ export default function Navbar() {
 
         {/* Desktop CTA */}
         <div className="hidden lg:block">
-          <Link
-            href="#contacto"
-            className="btn-primary text-sm !py-2.5 !px-5"
-          >
+          <Link href="#contacto" className="btn-outline text-sm !py-2.5 !px-5">
             Solicitar cotización
           </Link>
         </div>
@@ -88,7 +78,7 @@ export default function Navbar() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="lg:hidden p-2 text-[#F1F5F9] hover:text-[#20A0E0] transition-colors"
+          className="lg:hidden p-2 text-[#64748B] hover:text-[#1E6EF0] transition-colors"
           aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
         >
           {isOpen ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
@@ -97,13 +87,13 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="lg:hidden mt-4 border-t border-white/10 pt-4 flex flex-col gap-3 pb-2">
+        <div className="lg:hidden border-t border-[#E2E8F0] bg-white px-4 pb-6 pt-3 flex flex-col gap-3">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="text-sm font-medium text-[#F1F5F9]/80 hover:text-[#20A0E0] transition-colors py-2 font-[var(--font-body)]"
+              className="text-sm font-medium text-[#64748B] hover:text-[#1E6EF0] transition-colors py-1.5 font-[var(--font-body)]"
             >
               {link.label}
             </Link>
@@ -111,7 +101,7 @@ export default function Navbar() {
           <Link
             href="#contacto"
             onClick={() => setIsOpen(false)}
-            className="btn-primary text-sm !py-2.5 !px-5 w-fit mt-2"
+            className="btn-outline text-sm !py-2.5 justify-center mt-2"
           >
             Solicitar cotización
           </Link>

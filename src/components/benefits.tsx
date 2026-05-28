@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { Droplet, Shield, Heart, Wrench, BadgeCheck, Star } from "lucide-react";
+import WaterWaves from "./water-waves";
 
 const BENEFITS = [
   {
@@ -50,8 +51,10 @@ export default function Benefits() {
 
     const loadGSAP = async () => {
       try {
-        const gsap = (await import("gsap")).default;
-        const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
+        const gsapModule = await import("gsap");
+        const gsap = gsapModule.default;
+        const ScrollTriggerModule = await import("gsap/ScrollTrigger");
+        const ScrollTrigger = ScrollTriggerModule.default;
         gsap.registerPlugin(ScrollTrigger);
 
         gsap.fromTo(
@@ -96,40 +99,46 @@ export default function Benefits() {
     <section
       ref={sectionRef}
       id="beneficios"
-      className="section-deep py-[--section]"
+      className="relative bg-white"
     >
-      <div className="max-w-7xl mx-auto px-[--container-px]">
-        {/* Section Header */}
-        <div className="text-center mb-[--block] benefits-header">
-          <span className="eyebrow">BENEFICIOS</span>
-          <h2 className="heading-h2 text-[clamp(1.75rem,3vw,2.75rem)] text-[#F1F5F9] mb-4 text-balance">
-            Lo que usted gana con PINA Water System
-          </h2>
-        </div>
+      <div className="section">
+        <div className="max-w-7xl mx-auto container-px">
+          {/* Section Header */}
+          <div className="text-center mb-12 benefits-header">
+            <span className="eyebrow">BENEFICIOS</span>
+            <h2 className="heading-h2 text-[clamp(1.75rem,3vw,2.75rem)] text-[#111827] text-balance">
+              Lo que usted gana con PINA Water System
+            </h2>
+          </div>
 
-        {/* Benefits Grid */}
-        <div className="benefits-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {BENEFITS.map((benefit) => (
-            <div key={benefit.title} className="benefit-card glass-card-outer">
-              <div className="glass-card-inner text-center">
-                <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-[#20A0E0]/10 border border-[#20A0E0]/20 flex items-center justify-center">
+          {/* Benefits Grid 3x2 */}
+          <div className="benefits-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {BENEFITS.map((benefit) => (
+              <div
+                key={benefit.title}
+                className="benefit-card card-clean p-6 md:p-8 text-center"
+              >
+                <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-[#E0F7FA] border border-[#CCF0F5] flex items-center justify-center">
                   <benefit.icon
-                    size={24}
-                    strokeWidth={1.5}
-                    className="text-[#20A0E0]"
+                    size={22}
+                    strokeWidth={1}
+                    className="text-[#0891B2]"
                   />
                 </div>
-                <h3 className="heading-h3 text-[clamp(1rem,1.3vw,1.25rem)] text-[#F1F5F9] mb-2.5 text-balance">
+                <h3 className="heading-h3 text-lg text-[#111827] mb-2">
                   {benefit.title}
                 </h3>
-                <p className="text-[#94A3B8] body-text text-sm leading-relaxed">
+                <p className="text-[#64748B] body-text text-sm leading-relaxed">
                   {benefit.description}
                 </p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
+
+      {/* Wave divider to next section */}
+      <WaterWaves fillColor="#F0F8FF" backgroundColor="#FFFFFF" variant="simple" />
     </section>
   );
 }

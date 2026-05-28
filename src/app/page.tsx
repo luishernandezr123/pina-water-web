@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="flex flex-col">
+      <main className="flex flex-col bg-white">
         <Hero />
         <PainPoints />
         <TreatmentStages />

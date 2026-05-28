@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import WaterWaves from "./water-waves";
 
 const STAGES = [
   {
@@ -55,8 +56,10 @@ export default function TreatmentStages() {
 
     const loadGSAP = async () => {
       try {
-        const gsap = (await import("gsap")).default;
-        const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
+        const gsapModule = await import("gsap");
+        const gsap = gsapModule.default;
+        const ScrollTriggerModule = await import("gsap/ScrollTrigger");
+        const ScrollTrigger = ScrollTriggerModule.default;
         gsap.registerPlugin(ScrollTrigger);
 
         gsap.fromTo(
@@ -74,11 +77,12 @@ export default function TreatmentStages() {
           }
         );
 
+        // Animate stage items
         gsap.fromTo(
           ".stage-item",
-          { x: -40, opacity: 0 },
+          { y: 40, opacity: 0 },
           {
-            x: 0,
+            y: 0,
             opacity: 1,
             duration: 0.5,
             stagger: 0.12,
@@ -89,6 +93,18 @@ export default function TreatmentStages() {
             },
           }
         );
+
+        // Animate circles to active state sequentially
+        STAGES.forEach((_, i) => {
+          ScrollTrigger.create({
+            trigger: `.stage-item-${i}`,
+            start: "top 70%",
+            onEnter: () => {
+              const circle = document.querySelector(`.stage-circle-${i}`);
+              if (circle) circle.classList.add("active");
+            },
+          });
+        });
       } catch (e) {
         // graceful
       }
@@ -101,76 +117,85 @@ export default function TreatmentStages() {
     <section
       ref={sectionRef}
       id="etapas"
-      className="section-deep py-[--section]"
+      className="relative bg-white"
     >
-      <div className="max-w-7xl mx-auto px-[--container-px]">
-        {/* Section Header */}
-        <div className="text-center mb-[--block] stages-header">
-          <span className="eyebrow">NUESTRO SISTEMA</span>
-          <h2 className="heading-h2 text-[clamp(1.75rem,3vw,2.75rem)] text-[#F1F5F9] mb-4 text-balance">
-            Seis etapas. Un solo propósito: agua impecable.
-          </h2>
-        </div>
+      <div className="section">
+        <div className="max-w-4xl mx-auto container-px">
+          {/* Section Header */}
+          <div className="text-center mb-16 stages-header">
+            <span className="eyebrow">NUESTRO SISTEMA</span>
+            <h2 className="heading-h2 text-[clamp(1.75rem,3vw,2.75rem)] text-[#111827] mb-4 text-balance">
+              Seis etapas. Un solo propósito: agua impecable.
+            </h2>
+          </div>
 
-        {/* Timeline */}
-        <div className="stages-list relative max-w-3xl mx-auto">
-          {/* Vertical line */}
-          <div className="absolute left-5 md:left-1/2 top-0 bottom-0 w-px bg-[#20A0E0]/20 -translate-x-1/2 hidden md:block" />
+          {/* Timeline */}
+          <div className="stages-list relative">
+            {/* Vertical line */}
+            <div className="absolute left-[1.4rem] md:left-1/2 top-0 bottom-0 w-0.5 bg-[#E0F7FA] -translate-x-1/2 hidden md:block" />
 
-          <div className="flex flex-col gap-6">
-            {STAGES.map((stage) => (
-              <div
-                key={stage.num}
-                className={`stage-item flex flex-col md:flex-row gap-4 md:gap-8 items-start ${
-                  stage.num % 2 === 0 ? "md:flex-row-reverse" : ""
-                }`}
-              >
-                {/* Content */}
+            <div className="flex flex-col gap-8">
+              {STAGES.map((stage, idx) => (
                 <div
-                  className={`flex-1 glass-card-outer ${
-                    stage.num % 2 === 0 ? "md:text-right" : "md:text-left"
+                  key={stage.num}
+                  className={`stage-item stage-item-${idx} flex gap-4 md:gap-8 items-start ${
+                    idx % 2 === 0
+                      ? "md:flex-row"
+                      : "md:flex-row-reverse"
                   }`}
                 >
-                  <div className="glass-card-inner">
+                  {/* Content */}
+                  <div
+                    className={`flex-1 card-clean p-5 md:p-6 ${
+                      idx % 2 === 0 ? "md:text-right" : "md:text-left"
+                    }`}
+                  >
+                    {/* Mobile: show number inline */}
                     <div className="flex items-center gap-3 mb-2 md:hidden">
-                      <div className="process-step-num">{stage.num}</div>
+                      <div className={`stage-circle stage-circle-${idx}`}>
+                        {stage.num}
+                      </div>
                       <div>
-                        <h3 className="heading-h3 text-lg text-[#F1F5F9]">
+                        <h3 className="heading-h3 text-lg text-[#111827]">
                           {stage.title}
                         </h3>
-                        <p className="text-xs text-[#20A0E0] font-[var(--font-body)] font-semibold tracking-wider uppercase">
+                        <p className="text-xs text-[#00B4D8] font-[var(--font-body)] font-semibold tracking-wider uppercase">
                           {stage.subtitle}
                         </p>
                       </div>
                     </div>
+                    {/* Desktop: number is in the center */}
                     <div className="hidden md:block">
-                      <h3 className="heading-h3 text-lg text-[#F1F5F9] mb-1">
+                      <h3 className="heading-h3 text-lg text-[#111827] mb-1">
                         {stage.title}
                       </h3>
-                      <p className="text-xs text-[#20A0E0] font-[var(--font-body)] font-semibold tracking-wider uppercase mb-2">
+                      <p className="text-xs text-[#00B4D8] font-[var(--font-body)] font-semibold tracking-wider uppercase mb-2">
                         {stage.subtitle}
                       </p>
                     </div>
-                    <p className="text-[#94A3B8] body-text text-sm leading-relaxed">
+                    <p className="text-[#64748B] body-text text-sm leading-relaxed">
                       {stage.description}
                     </p>
                   </div>
-                </div>
 
-                {/* Number node on desktop */}
-                <div className="hidden md:flex items-center justify-center shrink-0 relative z-10">
-                  <div className="process-step-num !w-10 !h-10 !text-base !font-bold">
-                    {stage.num}
+                  {/* Circle node (center on desktop) */}
+                  <div className="hidden md:flex items-center justify-center shrink-0 relative z-10">
+                    <div className={`stage-circle stage-circle-${idx}`}>
+                      {stage.num}
+                    </div>
                   </div>
-                </div>
 
-                {/* Spacer for alternating layout */}
-                <div className="flex-1 hidden md:block" />
-              </div>
-            ))}
+                  {/* Spacer for alternating layout */}
+                  <div className="flex-1 hidden md:block" />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Wave divider to next section */}
+      <WaterWaves fillColor="#F0F8FF" backgroundColor="#FFFFFF" variant="pronounced" />
     </section>
   );
 }

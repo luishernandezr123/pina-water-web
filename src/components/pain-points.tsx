@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { Droplets, AlertTriangle, FlaskConical, Wrench } from "lucide-react";
+import WaterWaves from "./water-waves";
 
 const PAIN_POINTS = [
   {
@@ -38,8 +39,10 @@ export default function PainPoints() {
 
     const loadGSAP = async () => {
       try {
-        const gsap = (await import("gsap")).default;
-        const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
+        const gsapModule = await import("gsap");
+        const gsap = gsapModule.default;
+        const ScrollTriggerModule = await import("gsap/ScrollTrigger");
+        const ScrollTrigger = ScrollTriggerModule.default;
         gsap.registerPlugin(ScrollTrigger);
 
         gsap.fromTo(
@@ -84,44 +87,47 @@ export default function PainPoints() {
     <section
       ref={sectionRef}
       id="problemas"
-      className="section-alt py-[--section]"
+      className="relative bg-[#F0F8FF]"
     >
-      <div className="max-w-7xl mx-auto px-[--container-px]">
-        {/* Section Header */}
-        <div className="text-center mb-[--block] pain-header">
-          <span className="eyebrow">PROBLEMAS DEL AGUA</span>
-          <h2 className="heading-h2 text-[clamp(1.75rem,3vw,2.75rem)] text-[#F1F5F9] mb-4 text-balance">
-            Lo que su agua esconde puede costarle caro
-          </h2>
-        </div>
+      <div className="section">
+        <div className="max-w-7xl mx-auto container-px">
+          {/* Section Header */}
+          <div className="text-center mb-12 pain-header">
+            <span className="eyebrow">PROBLEMAS DEL AGUA</span>
+            <h2 className="heading-h2 text-[clamp(1.75rem,3vw,2.75rem)] text-[#111827] mb-4 text-balance">
+              Lo que su agua esconde puede costarle caro
+            </h2>
+          </div>
 
-        {/* Pain Points Grid */}
-        <div className="pain-grid grid grid-cols-1 md:grid-cols-2 gap-6">
-          {PAIN_POINTS.map((point) => (
-            <div key={point.title} className="pain-card glass-card-outer">
-              <div className="glass-card-inner">
+          {/* Pain Points Grid */}
+          <div className="pain-grid grid grid-cols-1 md:grid-cols-2 gap-6">
+            {PAIN_POINTS.map((point) => (
+              <div key={point.title} className="pain-card card-clean p-6 md:p-8">
                 <div className="flex gap-4 items-start">
-                  <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0">
+                  <div className="w-12 h-12 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center shrink-0">
                     <point.icon
                       size={22}
-                      strokeWidth={1.5}
-                      className="text-red-400"
+                      strokeWidth={1}
+                      className="text-red-500"
                     />
                   </div>
                   <div>
-                    <h3 className="heading-h3 text-[clamp(1.2rem,1.5vw,1.5rem)] text-[#F1F5F9] mb-2">
+                    <h3 className="heading-h3 text-lg md:text-xl text-[#111827] mb-2">
                       {point.title}
                     </h3>
-                    <p className="text-[#94A3B8] body-text text-sm md:text-base leading-relaxed">
+                    <p className="text-[#64748B] body-text text-sm md:text-base leading-relaxed">
                       {point.description}
                     </p>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
+
+      {/* Wave divider to next section */}
+      <WaterWaves fillColor="#00B4D8" backgroundColor="#F0F8FF" variant="gentle" />
     </section>
   );
 }

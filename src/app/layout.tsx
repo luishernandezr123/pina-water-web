@@ -39,7 +39,7 @@ export default function RootLayout({
       lang="es"
       className={`${bodoniModa.variable} ${outfit.variable} antialiased`}
     >
-      <body className="min-h-screen flex flex-col bg-[#060E1D] text-[#F1F5F9] font-[var(--font-body)]">
+      <body className="min-h-screen flex flex-col bg-white text-[#111827] font-[var(--font-body)]">
         {children}
         {/* JSON-LD Structured Data */}
         <script

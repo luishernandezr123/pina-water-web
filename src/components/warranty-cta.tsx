@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { CheckCircle, ShieldCheck } from "lucide-react";
+import WaterWaves from "./water-waves";
 
 const TRUST_POINTS = [
   {
@@ -26,8 +27,10 @@ export default function WarrantyCta() {
 
     const loadGSAP = async () => {
       try {
-        const gsap = (await import("gsap")).default;
-        const ScrollTrigger = (await import("gsap/ScrollTrigger")).default;
+        const gsapModule = await import("gsap");
+        const gsap = gsapModule.default;
+        const ScrollTriggerModule = await import("gsap/ScrollTrigger");
+        const ScrollTrigger = ScrollTriggerModule.default;
         gsap.registerPlugin(ScrollTrigger);
 
         gsap.fromTo(
@@ -56,22 +59,22 @@ export default function WarrantyCta() {
     <section
       ref={sectionRef}
       id="garantia"
-      className="section-alt py-[--section]"
+      className="relative bg-[#F0F8FF]"
     >
-      <div className="max-w-4xl mx-auto px-[--container-px]">
-        <div className="warranty-content glass-card-outer">
-          <div className="glass-card-inner text-center">
-            <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#C8A44E]/10 border border-[#C8A44E]/20 flex items-center justify-center">
+      <div className="section">
+        <div className="max-w-4xl mx-auto container-px">
+          <div className="warranty-content card-clean p-8 md:p-12 text-center">
+            <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-amber-50 border border-amber-100 flex items-center justify-center">
               <ShieldCheck
                 size={28}
-                strokeWidth={1.5}
-                className="text-[#C8A44E]"
+                strokeWidth={1}
+                className="text-amber-500"
               />
             </div>
-            <h2 className="heading-h2 text-[clamp(1.75rem,3vw,2.75rem)] text-[#F1F5F9] mb-4 text-balance">
+            <h2 className="heading-h2 text-[clamp(1.75rem,3vw,2.75rem)] text-[#111827] mb-4 text-balance">
               Tu agua, tu salud, nuestra prioridad.
             </h2>
-            <p className="text-[#94A3B8] body-text text-base md:text-lg mx-auto mb-8">
+            <p className="text-[#64748B] body-text text-base md:text-lg mx-auto mb-8 max-w-[55ch]">
               No es un lema: es nuestra garantía de trabajo.
             </p>
 
@@ -81,9 +84,9 @@ export default function WarrantyCta() {
                   <point.icon
                     size={20}
                     strokeWidth={1.5}
-                    className="text-[#22C55E] shrink-0 mt-0.5"
+                    className="text-[#16A34A] shrink-0 mt-0.5"
                   />
-                  <p className="text-[#F1F5F9]/85 body-text text-sm leading-relaxed">
+                  <p className="text-[#111827] body-text text-sm leading-relaxed">
                     {point.text}
                   </p>
                 </div>
@@ -92,6 +95,9 @@ export default function WarrantyCta() {
           </div>
         </div>
       </div>
+
+      {/* Wave divider to CTA Final */}
+      <WaterWaves fillColor="#FFFFFF" backgroundColor="#F0F8FF" variant="pronounced" />
     </section>
   );
 }

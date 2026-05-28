@@ -8,17 +8,12 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer
-      className="pt-16 pb-8"
-      style={{
-        background: "linear-gradient(180deg, #003060 0%, #002040 100%)",
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-[--container-px]">
+    <footer className="bg-[#1E293B] pt-16 pb-8">
+      <div className="max-w-7xl mx-auto container-px">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
           {/* Logo & Brand */}
           <div>
-            <div className="bg-white/95 rounded-lg p-2 inline-block mb-4">
+            <div className="bg-white rounded-lg p-2 inline-block mb-4">
               <Image
                 src="/assets/img/logo.png"
                 alt="PINA Water System"
@@ -27,7 +22,7 @@ export default function Footer() {
                 className="h-[56px] w-auto"
               />
             </div>
-            <p className="text-[#94A3B8] body-text text-sm leading-relaxed max-w-[40ch]">
+            <p className="text-[#94A3B8] text-sm leading-relaxed max-w-[40ch] font-[var(--font-body)]">
               Sistemas profesionales de tratamiento y purificación de agua
               residencial. Tecnología certificada NSF con instalación garantizada.
             </p>
@@ -41,7 +36,7 @@ export default function Footer() {
             <div className="space-y-3">
               <Link
                 href="tel:+17863424247"
-                className="flex items-center gap-2.5 text-[#94A3B8] hover:text-[#20A0E0] transition-colors text-sm font-[var(--font-body)]"
+                className="flex items-center gap-2.5 text-[#94A3B8] hover:text-[#38BDF8] transition-colors text-sm font-[var(--font-body)]"
               >
                 <Phone size={16} strokeWidth={1.5} />
                 786-342-4247
@@ -50,7 +45,7 @@ export default function Footer() {
                 href="https://pinawatersystem.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2.5 text-[#94A3B8] hover:text-[#20A0E0] transition-colors text-sm font-[var(--font-body)]"
+                className="flex items-center gap-2.5 text-[#94A3B8] hover:text-[#38BDF8] transition-colors text-sm font-[var(--font-body)]"
               >
                 <Globe size={16} strokeWidth={1.5} />
                 pinawatersystem.com
@@ -81,7 +76,7 @@ export default function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="block text-[#94A3B8] hover:text-[#20A0E0] transition-colors text-sm font-[var(--font-body)]"
+                  className="block text-[#94A3B8] hover:text-[#38BDF8] transition-colors text-sm font-[var(--font-body)]"
                 >
                   {link.label}
                 </Link>
