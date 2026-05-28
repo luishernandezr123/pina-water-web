@@ -96,10 +96,18 @@ function Hero() {
         </div>
         {/* Image */}
         <div className="flex-1 hero-img relative">
-          <Image src="/assets/img/hero-main.webp" alt="Sistema de purificación PINA Water" width={600} height={600} className="w-full max-w-[520px] h-auto rounded-2xl shadow-2xl" priority />
-          <div className="absolute -bottom-4 -right-4 bg-white rounded-xl px-5 py-3 shadow-lg border border-border flex items-center gap-2">
-            <BadgeCheck size={20} className="text-accent" />
-            <span className="text-sm font-semibold">Certificación NSF</span>
+          <div className="relative rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.15)] ring-1 ring-black/5">
+            <Image src="/assets/img/hero-main.webp" alt="Sistema de purificación PINA Water" width={600} height={600} className="w-full max-w-[540px] h-auto" priority />
+            <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 to-transparent" />
+          </div>
+          <div className="absolute -bottom-5 -right-5 bg-white rounded-2xl px-6 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.12)] border border-border/50 flex items-center gap-3 backdrop-blur-sm">
+            <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+              <BadgeCheck size={22} className="text-accent" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-text">Certificación NSF</p>
+              <p className="text-xs text-text-muted">ANSI 44 · 61 · 372</p>
+            </div>
           </div>
         </div>
       </div>
@@ -133,15 +141,32 @@ function Stats() {
   ];
 
   return (
-    <section className="section-alt py-16">
-      <div className="container-sm grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
-        {stats.map((s, i) => (
-          <div key={i}>
-            <div className="stat-number stat-num" data-target={s.value}>0</div>
-            <span className="stat-number">{s.unit}</span>
-            <p className="stat-label mt-2">{s.label}</p>
+    <section className="section-alt py-16 md:py-24">
+      <div className="container grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        {/* Left: Image */}
+        <div className="relative order-2 lg:order-1">
+          <Image src="/assets/img/family-moment.webp" alt="Familia disfrutando agua pura" width={600} height={600} className="w-full rounded-3xl shadow-xl" />
+          <div className="absolute -bottom-4 -left-4 bg-accent text-white rounded-2xl px-6 py-4 shadow-lg">
+            <p className="text-3xl font-display font-bold">10,000+</p>
+            <p className="text-sm text-white/80">Familias confían en nosotros</p>
           </div>
-        ))}
+        </div>
+        {/* Right: Numbers */}
+        <div className="order-1 lg:order-2 text-center lg:text-left">
+          <p className="eyebrow">Resultados reales</p>
+          <h2 className="display-md mb-10">Números que hablan por sí solos.</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            {stats.map((s, i) => (
+              <div key={i}>
+                <div className="flex items-baseline justify-center lg:justify-start gap-1">
+                  <span className="stat-number stat-num" data-target={s.value}>0</span>
+                  <span className="stat-number">{s.unit}</span>
+                </div>
+                <p className="stat-label mt-2">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -374,19 +399,21 @@ function Trust() {
   }, []);
 
   return (
-    <section id="trust" className="relative full-bleed h-[600px] flex items-center justify-center overflow-hidden">
-      <Image src="/assets/img/trust-seal.webp" alt="Confianza PINA Water" fill className="object-cover" />
-      <div className="absolute inset-0 bg-black/50" />
+    <section id="trust" className="relative full-bleed h-[700px] md:h-[600px] flex items-center justify-center overflow-hidden">
+      <Image src="/assets/img/trust-seal.webp" alt="Confianza PINA Water" fill className="object-cover scale-105" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
       <div className="relative z-10 container-sm text-center text-white trust-content">
-        <Shield size={48} strokeWidth={1} className="mx-auto mb-6 opacity-90" />
-        <h2 className="display-md text-white mb-4">Tu agua, tu salud, nuestra prioridad.</h2>
-        <p className="text-lg text-white/80 max-w-[42ch] mx-auto mb-8">
+        <div className="w-20 h-20 rounded-3xl bg-white/10 backdrop-blur-md flex items-center justify-center mx-auto mb-8 border border-white/20">
+          <Shield size={36} strokeWidth={1} className="text-white" />
+        </div>
+        <h2 className="display-md text-white mb-6">Tu agua, tu salud, nuestra prioridad.</h2>
+        <p className="text-xl text-white/80 max-w-[42ch] mx-auto mb-10 leading-relaxed">
           Cada sistema PINA Water System se instala con garantía de satisfacción. Porque la calidad del agua de su familia no es negociable.
         </p>
-        <div className="flex flex-wrap justify-center gap-8 text-sm text-white/70">
-          <span>✓ Instalación profesional</span>
-          <span>✓ Certificación NSF</span>
-          <span>✓ Soporte permanente</span>
+        <div className="flex flex-wrap justify-center gap-10 text-base text-white/90 font-medium">
+          <span className="flex items-center gap-2"><BadgeCheck size={18} className="text-green-400" /> Instalación profesional</span>
+          <span className="flex items-center gap-2"><BadgeCheck size={18} className="text-green-400" /> Certificación NSF</span>
+          <span className="flex items-center gap-2"><BadgeCheck size={18} className="text-green-400" /> Soporte permanente</span>
         </div>
       </div>
     </section>
@@ -398,15 +425,25 @@ function Trust() {
    ================================================================ */
 function CTA() {
   return (
-    <section className="section container-sm text-center">
-      <p className="eyebrow">Comience hoy</p>
-      <h2 className="display-md mb-4">¿Listo para agua pura en su hogar?</h2>
-      <p className="body-xl mb-10 max-w-[40ch] mx-auto">
-        Contáctenos ahora. Reciba una evaluación gratuita y descubra qué sistema es ideal para su vivienda.
-      </p>
-      <Link href="https://wa.me/17863424247" target="_blank" className="btn btn-primary text-lg px-10 py-5">
-        Escríbanos por WhatsApp <ArrowRight size={22} />
-      </Link>
+    <section className="relative overflow-hidden py-32 md:py-40">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-bg to-accent/10" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-water/5 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/4" />
+
+      <div className="relative container-sm text-center">
+        <p className="eyebrow">Comience hoy</p>
+        <h2 className="display-md mb-5">¿Listo para agua pura en su hogar?</h2>
+        <p className="body-xl mb-10 max-w-[42ch] mx-auto">
+          Contáctenos ahora. Reciba una evaluación gratuita y descubra qué sistema es ideal para su vivienda.
+        </p>
+        <Link href="https://wa.me/17863424247" target="_blank"
+          className="inline-flex items-center gap-3 btn-primary text-lg px-12 py-6 rounded-xl shadow-[0_8px_32px_rgba(0,102,255,0.35)] hover:shadow-[0_16px_48px_rgba(0,102,255,0.45)] hover:-translate-y-1 transition-all duration-300">
+          <span>Escríbanos por WhatsApp</span>
+          <ArrowRight size={24} />
+        </Link>
+        <p className="mt-6 text-sm text-text-muted">+1 (786) 342-4247 · Respuesta en menos de 5 minutos</p>
+      </div>
     </section>
   );
 }
