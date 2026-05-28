@@ -1,73 +1,25 @@
 import type { Metadata } from "next";
-import { Bodoni_Moda, Outfit } from "next/font/google";
+import { Outfit, Bodoni_Moda } from "next/font/google";
 import "./globals.css";
 
-const bodoniModa = Bodoni_Moda({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const outfit = Outfit({
-  subsets: ["latin"],
-  variable: "--font-body",
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
+const outfit = Outfit({ subsets: ["latin"], weight: ["300","400","500","600","700"], variable: "--font-body", display: "swap" });
+const bodoni = Bodoni_Moda({ subsets: ["latin"], weight: ["400","500","600","700","800"], variable: "--font-display", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "PINA Water System | Tratamiento y Purificación de Agua",
-  description:
-    "Sistemas de ósmosis inversa, suavizadores y tratamiento de agua en 6 etapas para hogares. Tecnología certificada NSF. Instalación profesional.",
+  title: "PINA Water System — Tratamiento y Purificación de Agua",
+  description: "Tu agua, tu salud, nuestra prioridad. Sistemas de ósmosis inversa, suavizadores y purificación profesional con tecnología certificada NSF.",
   openGraph: {
-    title: "PINA Water System — Tratamiento y Purificación de Agua Residencial",
-    description:
-      "Tu agua, tu salud, nuestra prioridad. Sistemas de ósmosis inversa, suavizadores y tratamiento en 6 etapas con tecnología certificada NSF. Instalación profesional garantizada.",
+    title: "PINA Water System — Agua Pura para tu Hogar",
+    description: "Sistemas profesionales de tratamiento de agua. Ósmosis inversa, suavizadores, filtración 6 etapas. Certificación NSF.",
     type: "website",
-    locale: "es_US",
+    url: "https://pina-water.traffixdigital.com",
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="es"
-      className={`${bodoniModa.variable} ${outfit.variable} antialiased`}
-    >
-      <body className="min-h-screen flex flex-col bg-white text-[#111827] font-[var(--font-body)]">
-        {children}
-        {/* JSON-LD Structured Data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "LocalBusiness",
-              name: "PINA Water System",
-              description:
-                "Sistemas profesionales de tratamiento y purificación de agua residencial. Ósmosis inversa, suavizadores y sistemas de 6 etapas con certificación NSF.",
-              telephone: "+1-786-342-4247",
-              url: "https://pinawatersystem.com",
-              address: {
-                "@type": "PostalAddress",
-                addressRegion: "FL",
-                addressCountry: "US",
-              },
-              areaServed: {
-                "@type": "State",
-                name: "Florida",
-              },
-              priceRange: "$$",
-            }),
-          }}
-        />
-      </body>
+    <html lang="es" className={`${outfit.variable} ${bodoni.variable} antialiased`}>
+      <body className="bg-bg text-text font-body">{children}</body>
     </html>
   );
 }
-
